@@ -110,6 +110,7 @@ fclose($fd);
 <input type="text" size="2" name="S">
 <input type="text" size="2" name="T">
 <input type="submit" value="Submit">
+</form>
  <?php
 $S = $_POST ['S'];
 $T = $_POST ['T'];
@@ -118,15 +119,142 @@ $V1=$V*1000/3600;
 echo"Speed: $V km/god <br>";
 echo"Speed: $V1 m/c";
 ?>
-<h2>Завдання 3</h2>
+<h2>Завдання 4</h2>
 <h6>Вмістом вхідного файлу є деяка послідовність символів. Потрібно переписати ці символи в вихідний файл, викидаючи при цьому символи, розташовані між дужками (,). Самі дужки також викидаються. Передбачається, що всередині кожної пари дужок немає інших дужок. </h6>
 <?php
 $fname = "file.txt";
 $text = file_get_contents($fname);
 $fd = fopen("file1.txt", 'w') or die("File don't create");
-preg_replace('/\/\*(.*?)\*\//i', '', $text);
-fwrite($fd,$text);
+echo "$text <br>";
+function rrr($text){
+  $word = strstr($text, '(', true); 
+  $d = strstr($text, ')');
+  $d1 = strstr($text, '(');
+  $q = str_replace(array(')'),'',trim($d));
+  return "$word $q";
+  }
+
+echo rrr($text);
+
+
+
+fwrite($fd,rrr($text));
 fclose($fd);
-
-
 ?>
+
+<h2>Завдання 5</h2>
+<h6>Створіть скрипт, який здійснює підрахунок кількості строк в файлах проекту. Скрипт повинен обходити всі вложені каталоги проекту і підраховує кількість строк у файлах проекту з визначеним розширенням. </h6>
+<?php
+$dir="D:\PHPP\OpenServer\domains\Lab1";
+$result = [];
+
+initialize();
+calculation($dir);
+print_results();
+
+function initialize() {
+  global $result;
+  foreach (associations() as $type => $assoc) {
+    foreach ($assoc as $ext) {
+      $result[$type][$ext] = 0;
+    }
+  }
+}
+
+function calculation($dir) {
+  foreach (scandir($dir) as $filename) {
+    $file = $dir . '/' . $filename;
+    // Recursive processing directories.
+    if (is_dir($file)) {
+      // Exclude current and parent directory.
+      if (!in_array($filename, ['.', '..'], TRUE)) {
+        calculation($file);
+      }
+    }
+    // Fix for Windows.
+    elseif ($filename != 'desktop.ini') {
+      counting($file, $filename);
+    }
+  }
+}
+
+function associations() {
+  return [
+    'Text' => ['txt', 'csv', 'md'],
+    'PHP' => ['php'],
+    'JavaScript' => ['js', 'coffee'],
+    'CSS' => ['css', 'sass', 'scss', 'less'],
+    'Images' => ['jpg', 'jpeg', 'gif', 'png', 'ico', 'icon'],
+  ];
+}
+
+function get_type($filename) {
+  $ext = get_extension($filename);
+  $type = NULL;
+  foreach (associations() as $assoc => $ext_list) {
+    if (in_array($ext, $ext_list)) {
+      $type = $assoc;
+      break;
+    }
+  }
+
+  return [
+    'type' => $type ?: 'Other',
+    'ext' => $ext,
+  ];
+}
+
+function get_extension($filename) {
+  if (strpos($filename, '.') !== FALSE) {
+    $ext_parts = explode('.', $filename);
+    $ext = end($ext_parts);
+  }
+  else {
+    $ext = $filename;
+  }
+  return strtolower($ext);
+}
+
+function counting($file, $filename) {
+  global $result;
+  $assoc = get_type($filename);
+  $type = $assoc['type'];
+  $ext = $assoc['ext'];
+  if (isset($result[$type])) {
+    $result[$type][$ext] += count(file($file));
+  }
+  else {
+    $result['Other'][$ext] = count(file($file));
+  }
+}
+
+function count_by_type() {
+  global $result;
+  $count_by_type = [
+    'total' => 0,
+  ];
+  foreach ($result as $type => $sizes) {
+    $count_by_type[$type] = 0;
+    foreach (array_filter($sizes) as $ext => $size) {
+      $count_by_type[$type] += $size;
+      $count_by_type['total'] += $size;
+    }
+  }
+  return $count_by_type;
+}
+
+function print_results() {
+  global $result;
+  $count_by_type = count_by_type();
+
+  print 'Total: ' . $count_by_type['total'];
+  print '<ul>';
+  foreach ($result as $type => $sizes) {
+    print '<li>' . $type . ' - ' . $count_by_type[$type] . '<ul>';
+    foreach (array_filter($sizes) as $ext => $size) {
+      print '<li>' . $ext . ' - ' . $size;
+    }
+    print '</ul></li>';
+  }
+  print '</ul>';
+}
