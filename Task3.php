@@ -31,8 +31,85 @@
         </div>
       </nav>
 
+      <h6>1.	Створіть клас для виведення таблиці множення . Створити окремий метод для обчислення. Далі створити кілька об'єктів даного класу для демонстрації працездатності класу. Висновок оформити у вигляді таблиці. </h6>
+      <form method='post'>
+ <input type="number" name="Number" minlength="1" size="40" maxlength="35" value="Number:">
+ </br>
+ <input type='submit' name="Submit" value='Send'>
 
-     <h6>4.	У HTML формі користувач вводить в чотири різні поля: прізвище, ім'я, вік і e-mail. Після натискання клавіші кнопки ГОТОВО створюється об'єкт користувача, з методом, який вносить ці дані в поле об'єкту і далі виводить їх використовуючи другий метод класу користувача. </h6>
+ </form>
+<?php 
+class Number
+{
+public $num;
+public function __construct($number)
+{
+   return $this->multik($number);
+}
+public function multik($number)
+{
+    for($i=1;$i<=10;$i++)
+    {		
+        echo "<td>"."$number * $i = ".($number*$i)."</td>";
+        echo "<br>";    
+    }
+}
+}
+echo "Table multiply <br>";
+?>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+    <h6> Multiply 2 </h6>
+    <?php  $Number=$_POST['Number']; $number= new Number($Number);  ?>
+    </div>
+    </div>
+</div>
+
+<h6>2.Створіть клас країни в якому будуть поля: назва країни, населення і назва столиці (англійські назви придумайте самостійно). Створіть масив об'єктів, виведіть кожний з них у таблицю в три рядки по дві комірки в кожному. У лівій комірці ім'я елемента, в правій - його значення. </h6>
+<?php
+
+Class Country
+{
+ public $name;
+ public $population;
+ public $capital;
+ public function Country($Name,$Population,$Capital)
+ {
+    $this->name=$Name;
+    $this->population=$Population;
+    $this->capital=$Capital;
+ }
+ public function print()
+ {
+$arr=[$this->name, $this->population, $this->capital];
+for($i=0;$i<count($arr);$i++)
+{
+    echo "<td>".$arr[$i]."</td>";
+}
+
+
+}
+}
+$country[]= new Country("NNNN",2322,"NNNN");
+$country[]= new Country("IIII",7777,"IIII");
+$country[]= new Country("CCCC",4444,"CCCC");
+$country[]= new Country("EEEE",8888,"EEEE");
+
+?>
+
+<table class="table">
+<tbody>
+<?php for($i=0;$i<count($country);$i++){ ?>
+<tr>
+<?php $country[$i]->print(); ?>
+</tr>
+<?php } ?>
+</tbody>
+</table>
+
+
+    <h6>4.	У HTML формі користувач вводить в чотири різні поля: прізвище, ім'я, вік і e-mail. Після натискання клавіші кнопки ГОТОВО створюється об'єкт користувача, з методом, який вносить ці дані в поле об'єкту і далі виводить їх використовуючи другий метод класу користувача. </h6>
 <form method='post'>
  <input type="text" name="Name" minlength="1" size="40" maxlength="35" value="Name:">
  </br>
@@ -40,7 +117,7 @@
  </br>
  <input type="text" name="Email" minlength="1" size="40" maxlength="35" value="Email:">
  </br>
- <input type="text" name="Age" minlength="1" size="40" maxlength="35" value="Age:">
+ <input type="number" name="Age" minlength="1" size="40" maxlength="35" value="Age:">
  </br>
  <input type='submit' name="Submit" value='Send'>
 </form>
