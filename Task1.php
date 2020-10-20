@@ -96,15 +96,26 @@ echo '<pre>';
 
 <h2>Завдання 5</h2>
 <h6>Знайти різницю мінімальних елементів масивів A(7) та B(7).</h6>
-<h4>Array 1: [12, 8, 182, 6, 14] </h4>
-<h4>Array 2: [3, 2, 280, 233, 11] </h4>
+<h4>Array 1:[12, 8, 182, 6, 14,77,33] </h4>
+<h4>Array 2: [3, 2, 280, 233, 11,99,123] </h4>
 <div  style="font-size:25px;">
 <?php 
-$arr = [12, 8, 182, 6, 14];
-$arr1 = [3, 2, 280, 233, 11];
+
+$arr=array();
+$arr1 =array();
 $min = null;
 $min1 = null;
 $res=null;
+for($i = 0; $i < 10; $i++)
+{
+ $arr[$i]= rand(-20,20);
+}
+print_r($arr);
+for($i = 0; $i < 10; $i++)
+{
+ $arr1[$i]= rand(-20,20);
+}
+print_r($arr1);
 for($i = 0; $i < count($arr); $i++)
 {
     if($arr[$i] < $min or $min === null)
@@ -139,23 +150,19 @@ echo "Resualt : $res <br>";
 setlocale(LC_ALL, '');
 $text = "Qwe rty rty 123 lll 123 ";
 
-function getUniques($text, &$nOrigWords=false) {
- 
+function getUniques($text, $nOrigWords=false)
+ {
   $words = preg_split("/([^[:alnum:]]|['-])+/s", $text);
   $nOrigWords = count($words);
-  
-  $words = array_map("mb_strtolower", $words);
-
   $words = array_unique($words);
   return $words;
 }
 $uniq = getUniques($text, $nOrig);
-echo "Old word: $nOrig<br>";
+
 echo "New word: ".count($uniq)."<hr>";
 echo "words : $words<br>";
 echo join(" ", $uniq);
 
 ?>
 
-<button class="btn-warning">Resualt</button>
 </div>

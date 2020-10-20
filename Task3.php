@@ -36,13 +36,12 @@
  <input type="number" name="Number" minlength="1" size="40" maxlength="35" value="Number:">
  </br>
  <input type='submit' name="Submit" value='Send'>
-
  </form>
 <?php 
 class Number
 {
 public $num;
-public function __construct($number)
+public function Number($number)
 {
    return $this->multik($number);
 }
@@ -61,7 +60,7 @@ echo "Table multiply <br>";
   <div class="row">
     <div class="col-sm">
     <h6> Multiply 2 </h6>
-    <?php  $Number=$_POST['Number']; $number= new Number($Number);  ?>
+    <?php  $Number=$_POST['Number']; $number= new Number($Number);?>
     </div>
     </div>
 </div>
@@ -74,7 +73,7 @@ Class Country
  public $name;
  public $population;
  public $capital;
- public function Country($Name,$Population,$Capital)
+function __construct ($Name,$Population,$Capital)
  {
     $this->name=$Name;
     $this->population=$Population;
@@ -117,7 +116,7 @@ $country[]= new Country("EEEE",8888,"EEEE");
  </br>
  <input type="text" name="Email" minlength="1" size="40" maxlength="35" value="Email:">
  </br>
- <input type="number" name="Age" minlength="1" size="40" maxlength="35" value="Age:">
+ <input type="number" name="Age" min="1" size="40" max="99" value="Age:">
  </br>
  <input type='submit' name="Submit" value='Send'>
 </form>
@@ -155,8 +154,145 @@ $User->filll($Name,$Surname,$Email,$Age);
 $User->printt();
 ?>
 
+<h6>8.	Створити клас для виводу і обробки форми розрахунку (CalcDispatcher). Розхрахунок повинен здійснюватися усередині методу display (). Обробка введення форми повинна відбуватися усередині методу dispatch (). Передбачити перевірку на введення тільки чисел. Зв'яжіть класи Calc і CalcDispatcher ставленням агрегації, таким чином, що б вся логіка калькулятора відбувалася за допомогою об'єкту класу Calc. </h6>
+<?php
+
+class calculator
+{
+  public $num1;
+  public $num2;
+  public $operator;
+
+   function __construct($n1,$n2,$op)
+   {
+    $this->num1=$n1;
+    $this->num2=$n2;
+    $this->operator=$op;
+   }
+
+public function Operation()
+    {
+        switch($this->operator)
+        {
+            case '+':
+            return $this->num1 + $this->num2;
+            break;
+
+            case '-':
+            return $this->num1 - $this->num2;
+            break;
+
+            case '*':
+            return $this->num1 * $this->num2;
+            break;
+
+            case '/':
+
+            return $this->num1 / $this->num2;
+            break;
+
+            default:
+            return "Sorry No command found";
+        }   
+    }
+}
+
+class CalcDispatcher
+{
+public $Op;
+public function __construct(calculator $obj)
+{
+    $this->Op = $obj;
+}
+public function Dispatch()
+{
+   echo" <form method='post'>
+    <table align='center'>
+        <tr>
+            <td>Enter 1st Number</td>
+            <td><input type='text' name='n1' value='Number 1:'></td>
+        </tr>
+    
+        <tr>
+            <td>Enter 2nd Number</td>
+            <td><input type='text' name='n2' value='Number 2:'></td>
+        </tr>
+    
+        <tr>
+            <td>Select Operator</td>
+            <td><select name='op'>
+                <option value='+'>+</option>
+                <option value='-'>-</option>
+                <option value='*'>*</option>
+                <option value='/'>/</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type='submit' name='submit' value='               =                '></td>
+        </tr>
+    
+    </table>
+    </form>";
 
 
+
+}
+public function Display()
+{
+    
+echo"<span>".$this->Op->Operation()."</span>";
+}
+}
+
+?>
+
+<form method="post">
+<table align="center">
+    <tr>
+        <td><strong><?php echo $result; ?><strong></td>
+    </tr>
+    <tr>
+        <td>Enter 1st Number</td>
+        <td><input type="text" name="n1"></td>
+    </tr>
+
+    <tr>
+        <td>Enter 2nd Number</td>
+        <td><input type="text" name="n2"></td>
+    </tr>
+
+    <tr>
+        <td>Select Oprator</td>
+        <td><select name="op">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select></td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td><input type="submit" name="submit" value="                =                "></td>
+    </tr>
+
+</table>
+</form>
+<?php
+if (isset($_POST['n1'], $_POST['n2'],$_POST['op'])) 
+{
+$number1 = $_POST['n1'];
+$number2 = $_POST['n2'];
+$operator = $_POST['op'];
+                            
+$obj = new calculator($number1, $number2,$operator);
+$obj1 = new CalcDispatcher($obj);
+$obj1->Display();
+                            
+                            
+}
+?>
 
 
 
