@@ -85,7 +85,7 @@ echo '<pre>';
 for ($c = 0; $c < 8; $c++):
     for ($r = 0; $r < 4; $r++):
   if($two_dimensional_array[$c][$r] <0)
-  $two_dimensional_array[$c][$r] *=$two_dimensional_array[$c][$r];
+  $two_dimensional_array[$c][$r]='*';
     endfor;
 endfor;
 

@@ -31,7 +31,7 @@
         </div>
       </nav>
 
-      <h6>1.	Створіть клас для виведення таблиці множення . Створити окремий метод для обчислення. Далі створити кілька об'єктів даного класу для демонстрації працездатності класу. Висновок оформити у вигляді таблиці. </h6>
+      <h6>1.Створіть клас для виведення таблиці множення . Створити окремий метод для обчислення. Далі створити кілька об'єктів даного класу для демонстрації працездатності класу. Висновок оформити у вигляді таблиці. </h6>
       <form method='post'>
  <input type="number" name="Number" minlength="1" size="40" maxlength="35" value="Number:">
  </br>
@@ -41,11 +41,11 @@
 class Number
 {
 public $num;
-public function Number($number)
+public function __construct($number)
 {
-   return $this->multik($number);
+   return $this->multiply($number);
 }
-public function multik($number)
+public function multiply($number)
 {
     for($i=1;$i<=10;$i++)
     {		
@@ -73,44 +73,61 @@ Class Country
  public $name;
  public $population;
  public $capital;
-function __construct ($Name,$Population,$Capital)
+ public $p;
+public function __construct ($Name,$Population,$Capital,$P)
  {
     $this->name=$Name;
     $this->population=$Population;
     $this->capital=$Capital;
+    $this->p=$P;
  }
- public function print()
- {
-$arr=[$this->name, $this->population, $this->capital];
-for($i=0;$i<count($arr);$i++)
-{
-    echo "<td>".$arr[$i]."</td>";
-}
+ 
 
 
 }
-}
-$country[]= new Country("NNNN",2322,"NNNN");
-$country[]= new Country("IIII",7777,"IIII");
-$country[]= new Country("CCCC",4444,"CCCC");
-$country[]= new Country("EEEE",8888,"EEEE");
+
 
 ?>
 
+
 <table class="table">
+<thead>
+    <tr>
+       <th scope="col">Name</th>
+      <th scope="col">Population</th>
+     <th scope="col">Square</th>
+    </tr>
+  </thead>
 <tbody>
-<?php for($i=0;$i<count($country);$i++){ ?>
-<tr>
-<?php $country[$i]->print(); ?>
-</tr>
-<?php } ?>
+
+<?php 
+$country[]= new Country("NNNN",2322,"NNNN","33");
+$country[]= new Country("IIII",7777,"IIII","33");
+$country[]= new Country("CCCC",4444,"CCCC","33");
+$country[]= new Country("EEEE",8888,"EEEE","33");
+
+foreach($country as $obj) 
+{
+echo"<tr>";
+
+echo "<td>".$obj->name."</td>";
+echo "<td>".$obj->population."<br>";
+echo "Столиця: ".$obj->capital." "."</td>";
+echo "<td>".$obj->p."</td>";
+echo"</tr>";
+
+
+}
+ ?>
+
+
 </tbody>
 </table>
 
 
     <h6>4.	У HTML формі користувач вводить в чотири різні поля: прізвище, ім'я, вік і e-mail. Після натискання клавіші кнопки ГОТОВО створюється об'єкт користувача, з методом, який вносить ці дані в поле об'єкту і далі виводить їх використовуючи другий метод класу користувача. </h6>
 <form method='post'>
- <input type="text" name="Name" minlength="1" size="40" maxlength="35" value="Name:">
+ <input type="text" name="Name" onkeyup="this.value = this.value.replace(/[A-Z]/,'');"  minlength="1" size="40" maxlength="35" value="Name:">
  </br>
  <input type="text" name="Surname" minlength="1" size="40" maxlength="35" value="Surname:">
  </br>
@@ -241,7 +258,7 @@ public function Dispatch()
 public function Display()
 {
     
-echo"<span>".$this->Op->Operation()."</span>";
+echo"<p style='font-size:20px; margin-left:100px;'>".$this->Op->Operation()."</p>";
 }
 }
 
@@ -249,9 +266,6 @@ echo"<span>".$this->Op->Operation()."</span>";
 
 <form method="post">
 <table align="center">
-    <tr>
-        <td><strong><?php echo $result; ?><strong></td>
-    </tr>
     <tr>
         <td>Enter 1st Number</td>
         <td><input type="text" name="n1"></td>
@@ -263,7 +277,7 @@ echo"<span>".$this->Op->Operation()."</span>";
     </tr>
 
     <tr>
-        <td>Select Oprator</td>
+        <td>Select Operator</td>
         <td><select name="op">
             <option value="+">+</option>
             <option value="-">-</option>
@@ -408,7 +422,7 @@ function renderTable(int $row, int $col, string $width, string $height, array $s
 
 $styles1 = [
     [
-        'text'    => 'Текст червоного кольору в клітинках 1, 2, 4 и 5',
+        'text'    => 'Text red in cells  1, 2, 4 and 5',
         'cells'   => '1,2,4,5',
         'align'   => 'center',
         'valign'  => 'center',
@@ -416,7 +430,7 @@ $styles1 = [
         'bgcolor' => '0099FF',
     ],
     [
-        'text'    => 'Текст зеленого цвета',
+        'text'    => 'Text green',
         'cells'   => '8,9',
         'align'   => 'right',
         'valign'  => 'bottom',
@@ -429,7 +443,7 @@ echo renderTable(3, 3, 300, 300, $styles1);
 
 $styles = [
     [
-        'text'    => 'Текст красного цвета в колонках 2 и 5',
+        'text'    => 'Тext red 2  i 5',
         'cells'   => '2,5',
         'align'   => 'center',
         'valign'  => 'center',
